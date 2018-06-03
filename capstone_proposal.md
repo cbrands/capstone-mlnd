@@ -17,15 +17,27 @@ Kaggle is hosting this dataset as a Kaggle competition in order to give it wider
 Growing up in a rural area of the Netherlands I realize that food production is extremely labor intensive and uses significant amounts of herbicides to kill weeds. If a deep learning algorithm could distinguise the weeds from the disered plants then herbicides could be more efficiently and therefore more sparringly used.
 
 ### Problem Statement
-_(approx. 1 paragraph)_
-
-In this section, clearly describe the problem that is to be solved. The problem described should be well defined and should have at least one relevant potential solution. Additionally, describe the problem thoroughly such that it is clear that the problem is quantifiable (the problem can be expressed in mathematical or logical terms) , measurable (the problem can be measured by some metric and clearly observed), and replicable (the problem can be reproduced and occurs more than once).
+For this project we have to detect which species of plant is in the picture. Each image contains one seedling which has to be classified into one of twelve categories. The kaggle competition closed three months ago but I can evaluate any solution by measuring the mean multi-class [F1](https://en.wikipedia.org/wiki/F1_score) score run against the given test data set just as in the original [Kaggle competition](https://www.kaggle.com/c/plant-seedlings-classification#evaluation). 
 
 
 ### Datasets and Inputs
-_(approx. 2-3 paragraphs)_
+The train and test datasets can be found on [kaggle](https://www.kaggle.com/c/plant-seedlings-classification/data). There are 4751 images for training and 794 images for testing. Each image has a filename that is its unique id. The dataset comprises 12 plant species. The list of species is as follows:
 
-In this section, the dataset(s) and/or input(s) being considered for the project should be thoroughly described, such as how they relate to the problem and why they should be used. Information such as how the dataset or input is (was) obtained, and the characteristics of the dataset or input, should be included with relevant references and citations as necessary It should be clear how the dataset(s) or input(s) will be used in the project and whether their use is appropriate given the context of the problem.
+| Danish | English	| Latin | EPPO code |
+| ------ | ------- | ----- | ----- |
+| Majs | Maize | Zea mays L. | ZEAMX |
+| Vinterhvede | Common wheat | Triticum aestivum L. | TRZAX |
+| Sukkerroe | Sugar beet | Beta vulgaris var. altissima | BEAVA |
+| Lugtløs kamille | Scentless Mayweed | Matricaria perforata Mérat | MATIN |
+| Fuglegræs | Common Chickweed | Stellaria media | STEME |
+| Hyrdetaske | Shepherd’s Purse | Capsella bursa-pastoris | CAPBP |
+| Burresnerre | Cleavers | Galium aparine L. | GALAP |
+| Agersennep | Charlock | Sinapis arvensis L. | SINAR |
+| Hvidmelet gåsefod | Fat Hen | Chenopodium album L. | CHEAL |
+| Liden storkenæb | Small-flowered Cranesbill | Geranium pusillum | GERSS |
+| Agerrævehale | Black-grass | Alopecurus myosuroides | ALOMY |
+| Vindaks |Loose Silky-bent | Apera spica-venti | APESV |
+EPPO codes are computer codes developed for plants, pests (including pathogens) which are important in agriculture and plant protection.
 
 ### Solution Statement
 _(approx. 1 paragraph)_
