@@ -40,14 +40,16 @@ The train and test datasets can be found on [kaggle](https://www.kaggle.com/c/pl
 EPPO codes are computer codes developed for plants, pests (including pathogens) which are important in agriculture and plant protection.
 
 ### Solution Statement
-_(approx. 1 paragraph)_
+The solution to this problem is a model trained to predict the plant species for a given image.
+* Input: An image of a plant.
+* Output: The label of the plant on the image.
 
-In this section, clearly describe a solution to the problem. The solution should be applicable to the project domain and appropriate for the dataset(s) or input(s) given. Additionally, describe the solution thoroughly such that it is clear that the solution is quantifiable (the solution can be expressed in mathematical or logical terms) , measurable (the solution can be measured by some metric and clearly observed), and replicable (the solution can be reproduced and occurs more than once).
+The 794 test images Will be run through the model and the results will be combined into a single CSV file. This cvs file can than be submitted to Kaggle for evaluation of the mean multi-class F1 score. Alternatively I can calculate the F1 score myself as Kaggle has published how they [evaluate this project.](https://www.kaggle.com/c/plant-seedlings-classification#evaluation) 
 
 ### Benchmark Model
-_(approximately 1-2 paragraphs)_
+The model will be evaluated through [k-fold cross-validation](https://classroom.udacity.com/nanodegrees/nd009t/parts/278ce043-1d6a-4695-9d26-90459706fda9/modules/2fd52570-ca1d-4159-a6ff-896c4436f30a/lessons/eba65c23-416a-4876-bc82-3001ab152e32/concepts/a5290356-4c84-4cd0-9af3-dc8e06117fb4). The data will be sepatated into k folds, and then run k times, keeping one of the folds for validation eache run. 
 
-In this section, provide the details for a benchmark model or result that relates to the domain, problem statement, and intended solution. Ideally, the benchmark model or result contextualizes existing methods or known information in the domain and problem given, which could then be objectively compared to the solution. Describe how the benchmark model or result is measurable (can be measured by some metric and clearly observed) with thorough detail.
+Next the results will be benchmarked against other submissions in the [Kaggle leaderboard](https://www.kaggle.com/c/plant-seedlings-classification/leaderboard). 
 
 ### Evaluation Metrics
 _(approx. 1-2 paragraphs)_
