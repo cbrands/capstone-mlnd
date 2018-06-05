@@ -4,7 +4,7 @@ Charles Brands
 June 3, 2018
 
 ## Introduction
-This project wil use image analysis to classify twelf different species of plants. The dataset comes from the [Plant Seedlings Classification](https://www.kaggle.com/c/plant-seedlings-classification) competition. 
+This project wil use image analysis to classify twelf different species of plants. The dataset comes from the [Plant Seedlings Classification](https://www.kaggle.com/c/plant-seedlings-classification) competition.
 
 ### Domain Background
 Farmers have been spraying their fields with herbicides for decades to reduce weeds. So far one herbicide mixture was used  to spray an entire field. This is not a very effective approach. Massive usage of herbicides are expensive, bad for the environment and may lead to resistance in the weeds. Also a herbicide mixture that is effective against one species of weed can have little or no effect on another species. Not to mention that the herbicide may be damaging tothe crop it is supposed to protect.
@@ -17,7 +17,7 @@ Kaggle is hosting this dataset as a Kaggle competition in order to give it wider
 Growing up in a rural area of the Netherlands I realize that food production is extremely labor intensive and uses significant amounts of herbicides to kill weeds. If a deep learning algorithm could distinguise the weeds from the disered plants then herbicides could be more efficiently and therefore more sparringly used.
 
 ### Problem Statement
-For this project we have to detect which species of plant is in the picture. Each image contains one seedling which has to be classified into one of twelve categories. The kaggle competition closed three months ago but I can evaluate any solution by measuring the mean multi-class [F1](https://en.wikipedia.org/wiki/F1_score) score run against the given test data set just as in the original [Kaggle competition](https://www.kaggle.com/c/plant-seedlings-classification#evaluation). 
+For this project we have to detect which species of plant is in the picture. Each image contains one seedling which has to be classified into one of twelve categories. The kaggle competition closed three months ago but I can evaluate any solution by measuring the mean multi-class [F1](https://en.wikipedia.org/wiki/F1_score) score run against the given test data set just as in the original [Kaggle competition](https://www.kaggle.com/c/plant-seedlings-classification#evaluation).
 
 
 ### Datasets and Inputs
@@ -44,33 +44,30 @@ The solution to this problem is a model trained to predict the plant species for
 * Input: An image of a plant.
 * Output: The label of the plant on the image.
 
-The 794 test images Will be run through the model and the results will be combined into a single CSV file. This cvs file can than be submitted to Kaggle for evaluation of the mean multi-class F1 score. Alternatively I can calculate the F1 score myself as Kaggle has published how they [evaluate this project.](https://www.kaggle.com/c/plant-seedlings-classification#evaluation) 
+The 794 test images Will be run through the model and the results will be combined into a single CSV file. This cvs file can than be submitted to Kaggle for evaluation of the mean multi-class F1 score. Alternatively I can calculate the F1 score myself as Kaggle has published how they [evaluate this project.](https://www.kaggle.com/c/plant-seedlings-classification#evaluation)
 
 ### Benchmark Model
-The model will be evaluated through [k-fold cross-validation](https://classroom.udacity.com/nanodegrees/nd009t/parts/278ce043-1d6a-4695-9d26-90459706fda9/modules/2fd52570-ca1d-4159-a6ff-896c4436f30a/lessons/eba65c23-416a-4876-bc82-3001ab152e32/concepts/a5290356-4c84-4cd0-9af3-dc8e06117fb4). The data will be sepatated into k folds, and then run k times, keeping one of the folds for validation eache run. 
+The model will be evaluated through [k-fold cross-validation](https://classroom.udacity.com/nanodegrees/nd009t/parts/278ce043-1d6a-4695-9d26-90459706fda9/modules/2fd52570-ca1d-4159-a6ff-896c4436f30a/lessons/eba65c23-416a-4876-bc82-3001ab152e32/concepts/a5290356-4c84-4cd0-9af3-dc8e06117fb4). The data will be sepatated into k folds, and then run k times, keeping one of the folds for validation eache run.
 
-Next the results will be benchmarked against other submissions in the [Kaggle leaderboard](https://www.kaggle.com/c/plant-seedlings-classification/leaderboard). 
+Next the results will be benchmarked against other submissions in the [Kaggle leaderboard](https://www.kaggle.com/c/plant-seedlings-classification/leaderboard).
 
 ### Evaluation Metrics
-I will use the mean multi-class F1 score as the metric to evaluate my solution. 
+I will use the mean multi-class F1 score as the metric to evaluate my solution.
 From [scikit-learn.org](http://scikit-learn.org/stable/modules/generated/sklearn.metrics.f1_score.html)
 > The F1 score can be interpreted as a weighted average of the precision and recall, where an F1 score reaches its best value at 1 and worst score at 0. The relative contribution of precision and recall to the F1 score are equal. The formula for the F1 score is:
 
-![](https://github.com/cbrands/capstone-mlnd/blob/master/figures/formula1a.png "formula1")
+![](figures/formula1a.png "formula1")
 
->In the multi-class and multi-label case, this is the weighted average of the F1 score of each class. 
+>In the multi-class and multi-label case, this is the weighted average of the F1 score of each class.
 
 Precision is the ability of the classifier not to label as positive a sample that is negative. In formula:
 
-![](https://github.com/cbrands/capstone-mlnd/blob/master/figures/figure2a.png "formula2")
-
-precision = True positives / (True positives + False positives)
+![](figures/figure2a.png "formula2")
 
 Recall is the ability of the classifier to find all the positive samples. In formula:
 
-![](https://github.com/cbrands/capstone-mlnd/blob/master/figures/figure3a.png "formula3")
+![](figures/figure3a.png "formula3")
 
-recall = True positives / (True positives + False Negatives)
 
 ### Project Design
 _(approx. 1 page)_
