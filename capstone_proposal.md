@@ -60,7 +60,11 @@ I will use the mean multi-class F1 score as the metric to evaluate my solution.
 From [scikit-learn.org](http://scikit-learn.org/stable/modules/generated/sklearn.metrics.f1_score.html)
 > The F1 score can be interpreted as a weighted average of the precision and recall, where an F1 score reaches its best value at 1 and worst score at 0. The relative contribution of precision and recall to the F1 score are equal. The formula for the F1 score is:
 
-![](./figures/formula1.png?raw=true =250x)
+![](https://github.com/cbrands/capstone-mlnd/blob/master/figures/formula1.png "formula1")
+
+Inline-style: 
+![](https://github.com/adam-p/markdown-here/raw/master/src/common/images/icon48.png "Logo Title Text 1")
+
 
 
 > F1 = 2 * (precision * recall) / (precision + recall)
