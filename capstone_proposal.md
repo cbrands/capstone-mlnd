@@ -52,30 +52,23 @@ The model will be evaluated through [k-fold cross-validation](https://classroom.
 Next the results will be benchmarked against other submissions in the [Kaggle leaderboard](https://www.kaggle.com/c/plant-seedlings-classification/leaderboard). 
 
 ### Evaluation Metrics
-_(approx. 1-2 paragraphs)_
-
-In this section, propose at least one evaluation metric that can be used to quantify the performance of both the benchmark model and the solution model. The evaluation metric(s) you propose should be appropriate given the context of the data, the problem statement, and the intended solution. Describe how the evaluation metric(s) are derived and provide an example of their mathematical representations (if applicable). Complex evaluation metrics should be clearly defined and quantifiable (can be expressed in mathematical or logical terms).
-
 I will use the mean multi-class F1 score as the metric to evaluate my solution. 
 From [scikit-learn.org](http://scikit-learn.org/stable/modules/generated/sklearn.metrics.f1_score.html)
 > The F1 score can be interpreted as a weighted average of the precision and recall, where an F1 score reaches its best value at 1 and worst score at 0. The relative contribution of precision and recall to the F1 score are equal. The formula for the F1 score is:
 
 ![](https://github.com/cbrands/capstone-mlnd/blob/master/figures/formula1a.png "formula1")
 
-Inline-style: 
-![](https://github.com/adam-p/markdown-here/raw/master/src/common/images/icon48.png "Logo Title Text 1")
-
-
-
-> F1 = 2 * (precision * recall) / (precision + recall)
-
 >In the multi-class and multi-label case, this is the weighted average of the F1 score of each class. 
 
 Precision is the ability of the classifier not to label as positive a sample that is negative. In formula:
 
+![](https://github.com/cbrands/capstone-mlnd/blob/master/figures/formula2a.png "formula2")
+
 precision = True positives / (True positives + False positives)
 
 Recall is the ability of the classifier to find all the positive samples. In formula:
+
+![](https://github.com/cbrands/capstone-mlnd/blob/master/figures/formula3a.png "formula3")
 
 recall = True positives / (True positives + False Negatives)
 
