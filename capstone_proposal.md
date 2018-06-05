@@ -62,13 +62,13 @@ From [scikit-learn.org](http://scikit-learn.org/stable/modules/generated/sklearn
 
 Precision is the ability of the classifier not to label as positive a sample that is negative. In formula:
 
-![](https://github.com/cbrands/capstone-mlnd/blob/master/figures/formula2a.png "formula2")
+![](https://github.com/cbrands/capstone-mlnd/blob/master/figures/figure2a.png "formula2")
 
 precision = True positives / (True positives + False positives)
 
 Recall is the ability of the classifier to find all the positive samples. In formula:
 
-![](https://github.com/cbrands/capstone-mlnd/blob/master/figures/formula3a.png "formula3")
+![](https://github.com/cbrands/capstone-mlnd/blob/master/figures/figure3a.png "formula3")
 
 recall = True positives / (True positives + False Negatives)
 
