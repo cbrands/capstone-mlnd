@@ -1,20 +1,22 @@
 # Machine Learning Engineer Nanodegree
 ## Capstone Proposal
 Charles Brands
-June 3, 2018
+June 11, 2018
 
 ## Introduction
-This project wil use image analysis to classify twelf different species of plants. The dataset comes from the [Plant Seedlings Classification](https://www.kaggle.com/c/plant-seedlings-classification) competition.
+This project will use image analysis to classify twelve different species of plants. The dataset comes from the [Plant Seedlings Classification](https://www.kaggle.com/c/plant-seedlings-classification) competition.
 
 ### Domain Background
-Farmers have been spraying their fields with herbicides for decades to reduce weeds. So far one herbicide mixture was used  to spray an entire field. This is not a very effective approach. Massive usage of herbicides are expensive, bad for the environment and may lead to resistance in the weeds. Also a herbicide mixture that is effective against one species of weed can have little or no effect on another species. Not to mention that the herbicide may be damaging tothe crop it is supposed to protect.
+Farmers have been spraying their fields with herbicides for decades to reduce weeds. So far one herbicide mixture was used  to spray an entire field. This is not a very effective approach. Massive usage of herbicides are expensive, bad for the environment and may lead to resistance in the weeds. Also a herbicide mixture that is effective against one species of weed can have little or no effect on another species. Not to mention that the herbicide may be damaging to the crop it is supposed to protect.
 
 Aarhus University in Denmark is working on a project to create weed maps of a field from a [tractor](https://vision.eng.au.dk/roboweedmaps/) to pinpoint where a certain species of weed resides on a field. They have released [a dataset](https://vision.eng.au.dk/plant-seedlings-dataset/) of images of 960 unique plants belonging to 12 species at several growth stages.
 
 Kaggle is hosting this dataset as a Kaggle competition in order to give it wider exposure and to give the community an opportunity to experiment with different image recognition techniques.
 
 ### My motivation
-Growing up in a rural area of the Netherlands I realize that food production is extremely labor intensive and uses significant amounts of herbicides to kill weeds. If a deep learning algorithm could distinguise the weeds from the disered plants then herbicides could be more efficiently and therefore more sparringly used.
+Growing up in a rural area of the Netherlands I realize that food production is extremely labor intensive and uses significant amounts of herbicides to kill weeds. If a deep learning algorithm could distinguish the weeds from the disired plants then herbicides could be more efficiently and therefore more sparingly used.
+
+Secondly this project is about image classification using a neural network and that field is very hot right now.
 
 ### Problem Statement
 For this project we have to detect which species of plant is in the picture. Each image contains one seedling which has to be classified into one of twelve categories. The kaggle competition closed three months ago but I can evaluate any solution by measuring the mean multi-class [F1](https://en.wikipedia.org/wiki/F1_score) score run against the given test data set just as in the original [Kaggle competition](https://www.kaggle.com/c/plant-seedlings-classification#evaluation).
@@ -44,12 +46,10 @@ The solution to this problem is a model trained to predict the plant species for
 * Input: An image of a plant.
 * Output: The label of the plant on the image.
 
-The 794 test images Will be run through the model and the results will be combined into a single CSV file. This cvs file can than be submitted to Kaggle for evaluation of the mean multi-class F1 score. Alternatively I can calculate the F1 score myself as Kaggle has published how they [evaluate this project.](https://www.kaggle.com/c/plant-seedlings-classification#evaluation)
+The 794 test images Will be run through the model and the results will be combined into a single CSV file. This csv file can then be submitted to Kaggle for evaluation of the mean multi-class F1 score. Alternatively I can calculate the F1 score myself as Kaggle has published how they [evaluate this project.](https://www.kaggle.com/c/plant-seedlings-classification#evaluation)
 
 ### Benchmark Model
-The model will be evaluated through [k-fold cross-validation](https://classroom.udacity.com/nanodegrees/nd009t/parts/278ce043-1d6a-4695-9d26-90459706fda9/modules/2fd52570-ca1d-4159-a6ff-896c4436f30a/lessons/eba65c23-416a-4876-bc82-3001ab152e32/concepts/a5290356-4c84-4cd0-9af3-dc8e06117fb4). The data will be sepatated into k folds, and then run k times, keeping one of the folds for validation eache run.
-
-Next the results will be benchmarked against other submissions in the [Kaggle leaderboard](https://www.kaggle.com/c/plant-seedlings-classification/leaderboard).
+The results will be benchmarked against other submissions in the [Kaggle leaderboard](https://www.kaggle.com/c/plant-seedlings-classification/leaderboard).
 
 ### Evaluation Metrics
 I will use the mean multi-class F1 score as the metric to evaluate my solution.
@@ -70,19 +70,18 @@ Recall is the ability of the classifier to find all the positive samples. In for
 
 
 ### Project Design
-_(approx. 1 page)_
+I will attempt to solve this problem in a similar manner as the dog breeds classification project. I will use a convolutional neural network and apply transfer learning using a pretrained network such as Inception-V3, RESNET-50, VGG-16, or VGG-19.
 
-In this final section, summarize a theoretical workflow for approaching a solution given the problem. Provide thorough discussion for what strategies you may consider employing, what analysis of the data might be required before being used, or which algorithms will be considered for your implementation. The workflow and discussion that you provide should align with the qualities of the previous sections. Additionally, you are encouraged to include small visualizations, pseudocode, or diagrams to aid in describing the project design, but it is not required. The discussion should clearly outline your intended workflow of the capstone project.
-
------------
-
-**Before submitting your proposal, ask yourself. . .**
-
-- Does the proposal you have written follow a well-organized structure similar to that of the project template?
-- Is each section (particularly **Solution Statement** and **Project Design**) written in a clear, concise and specific fashion? Are there any ambiguous terms or phrases that need clarification?
-- Would the intended audience of your project be able to understand your proposal?
-- Have you properly proofread your proposal to assure there are minimal grammatical and spelling mistakes?
-- Are all the resources used for this project correctly cited and referenced?
+#### Steps
+1. Import the required data sets.
+2. Display some sample images for each plant.
+3. Separate the data set into training, validation, and testing sets.
+4. Do some preprocessing converting to tensors and normalization and so on.
+5. Possibly augmenting and oversampling the dataset by using horizontal flipping, rotation, zoom and so on.
+6. Create one or more models using the transfer learning approach with pretrained network as described above.
+7. Fine tune the model(s) using different optimizers and adjusting multiple parameters.
+8. The F1-score will be calculated as described in the section "Evaluation metrics" above.
+9. Finally my score will be compared to the leaderboard on Kaggle.
 
 ### References
 [Plant Seedlings Classification](https://www.kaggle.com/c/plant-seedlings-classification)
