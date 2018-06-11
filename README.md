@@ -1,6 +1,6 @@
 # Capstone proposal
 
-This is my submission for the MLND Capstone project. The important file is propossal.pdf. I also have saved the data files and the templates supplied by Udacity as I know I will need those later.
+This is my submission for the MLND Capstone project. **The important file is propossal.pdf.** I also have saved the data files and the templates supplied by Udacity as I know I will need those later.
 
 Other files in this directory are 
 * README.md  #This file
