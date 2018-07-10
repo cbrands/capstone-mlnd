@@ -1,26 +1,57 @@
 # Machine Learning Engineer Nanodegree
 ## Capstone Project
-Joe Udacity  
-December 31st, 2050
+Charles Brands  
+July 10th, 2018
 
 ## I. Definition
-_(approx. 1-2 pages)_
 
 ### Project Overview
-In this section, look to provide a high-level overview of the project in layman’s terms. Questions to ask yourself when writing this section:
-- _Has an overview of the project been provided, such as the problem domain, project origin, and related datasets or input data?_
-- _Has enough background information been given so that an uninformed reader would understand the problem domain and following problem statement?_
+Farmers have been spraying their fields with herbicides for decades to reduce weeds. So far one herbicide mixture was used  to spray an entire field. This is not a very effective approach. Massive usage of herbicides are expensive, bad for the environment and may lead to resistance in the weeds. Also a herbicide mixture that is effective against one species of weed can have little or no effect on another species. Not to mention that the herbicide may be damaging to the crop it is supposed to protect. A better approach would be a system that can recognise weeds from crops and only spray at places where it is needed.
+
+Aarhus University in Denmark is working on a project to create weed maps of a field from a [tractor](https://vision.eng.au.dk/roboweedmaps/) to pinpoint where a certain species of weed resides on a field. They have released [a dataset](https://vision.eng.au.dk/plant-seedlings-dataset/) of images of 960 unique plants belonging to 12 species at several growth stages.
+
+Kaggle is hosting this dataset as a Kaggle [competition](https://www.kaggle.com/c/plant-seedlings-classification). in order to give it wider exposure and to give the community an opportunity to experiment with different image recognition techniques.
+
 
 ### Problem Statement
-In this section, you will want to clearly define the problem that you are trying to solve, including the strategy (outline of tasks) you will use to achieve the desired solution. You should also thoroughly discuss what the intended solution will be for this problem. Questions to ask yourself when writing this section:
-- _Is the problem statement clearly defined? Will the reader understand what you are expecting to solve?_
-- _Have you thoroughly discussed how you will attempt to solve the problem?_
-- _Is an anticipated solution clearly defined? Will the reader understand what results you are looking for?_
+For this project we have to detect which species of plant is in each image of the dataset described above. Each image contains one seedling which has to be classified into one of twelve species. 
+The solution to this problem is a model trained to predict the plant species for a given image.
+* Input: An image of a plant.
+* Output: The name of the plant species on the image.
+
+
+#### Steps taken to complete this task
+1. Imported the required data sets.
+2. Displayed some sample images for each plant to get a viual idea of the problem.
+3. Separate the data set into training, validation, and testing sets.
+4. Do some preprocessing converting to tensors and normalization and so on.
+5. Augmenting and oversampling the dataset by using horizontal flipping, rotation, zoom and so on.
+6. Create a few models using the transfer learning approach with pretrained network as wel as a neural network started from scratch.
+7. Fine tune the model(s) using different optimizers and adjusting multiple parameters.
+8. The F1-score will be calculated as described in the section "Evaluation metrics" above.
+9. Finally my score will be compared to the leaderboard on Kaggle.
+
+The desired outcome of this project is to show that it is indeed possible to automattically detect weeds so the spraying of herbicides can be applied as sparingly and as effectively as possible.
+
 
 ### Metrics
-In this section, you will need to clearly define the metrics or calculations you will use to measure performance of a model or result in your project. These calculations and metrics should be justified based on the characteristics of the problem and problem domain. Questions to ask yourself when writing this section:
-- _Are the metrics you’ve chosen to measure the performance of your models clearly discussed and defined?_
-- _Have you provided reasonable justification for the metrics chosen based on the problem and solution?_
+I used the mean multi-class F1 score as the metric to evaluate my solution.
+See [scikit-learn.org](http://scikit-learn.org/stable/modules/generated/sklearn.metrics.f1_score.html)
+> The F1 score can be interpreted as a weighted average of the precision and recall, where an F1 score reaches its best value at 1 and worst score at 0. The relative contribution of precision and recall to the F1 score are equal. The formula for the F1 score is:
+
+![](figures/formula1a.png "formula1")
+
+>In the multi-class and multi-label case, this is the weighted average of the F1 score of each class.
+
+Precision is the ability of the classifier not to label as positive a sample that is negative. In formula:
+
+![](figures/figure2a.png "formula2")
+
+Recall is the ability of the classifier to find all the positive samples. In formula:
+
+![](figures/figure3a.png "formula3")
+
+The F1 score is also used by Kaggle as the metric to evaluate the solutions for this problem.[link](https://www.kaggle.com/c/plant-seedlings-classification#evaluation)
 
 
 ## II. Analysis
@@ -123,3 +154,8 @@ In this section, you will need to provide discussion as to how one aspect of the
 - Are all the resources used for this project correctly cited and referenced?
 - Is the code that implements your solution easily readable and properly commented?
 - Does the code execute without error and produce results similar to those reported?
+
+
+## References
+* [Kaggle seedlings evaluation](https://www.kaggle.com/c/plant-seedlings-classification#evaluation)
+* [scikit-learn.org f1 score](http://scikit-learn.org/stable/modules/generated/sklearn.metrics.f1_score.html)
