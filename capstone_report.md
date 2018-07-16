@@ -1,7 +1,7 @@
 # Machine Learning Engineer Nanodegree
 ## Capstone Project
 Charles Brands
-July 10th, 2018
+July 16th, 2018
 
 ## I. Definition
 
