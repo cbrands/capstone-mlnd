@@ -150,7 +150,7 @@ Also some Kaggle visitors are hosting Kaggle kernels after completing this proje
 ### Data Preprocessing
 The data was split into a training set and a test set. Targets were one-hot-encoded, converting them from integers to vectors with length 12 (the number of plant species). The images were loaded into memory, resized to a resolution of 224 x 244 with 3 RGB channels, and converted to tensors.
 
-As explained in the Data Exploration section above there was a large mismatch in the data set were some species were reprecented by 600 images and other by only 200. Overall we could use more data. So data augmentation techniques were used to balance and enlarge the dataset. Using [Kears ImageDataGenerator class](https://keras.io/preprocessing/image/) I applied random rotations, zooms, and shifts in height and width.
+As explained in the Data Exploration section above there was a large mismatch in the data set were some species were reprecented by 600 images and other by only 200. Overall we could use more data. So data augmentation techniques were used to balance and enlarge the dataset. Using [Keras ImageDataGenerator class](https://keras.io/preprocessing/image/) I applied random rotations, zooms, and shifts in height and width.
 
 This created a an even distribution with a lot more data as shown below.
 ![](figures/plot3.png "augmented distribution")
@@ -205,8 +205,6 @@ As the competition at Kaggle is already closed I can no longer submit to the lea
 Is the solution good enough to solve the problem? I think it is. Weeds do not come alone and a farmer is not going to spray a field for one strand of grass. Even with the lowest recognition rate of 74% for black grass a patch of weed will be recognized. Even when the system misidentifies a strand of black grass the majority of the neighbours will be correctly recognized and the correct herbicide will be applied. That said other Kagglers have shown a better result is possible and we should strive for that, which will be discussed in the last section.
 
 ## V. Conclusion
-_(approx. 1-2 pages)_
-
 ### Free-Form Visualization
 In this section, you will need to provide some form of visualization that emphasizes an important quality about the project. It is much more free-form, but should reasonably support a significant result or characteristic about the problem that you want to discuss. Questions to ask yourself when writing this section:
 - _Have you visualized a relevant or important quality about the problem, dataset, input data, or results?_
@@ -214,31 +212,46 @@ In this section, you will need to provide some form of visualization that emphas
 - _If a plot is provided, are the axes, title, and datum clearly defined?_
 
 ### Reflection
-In this section, you will summarize the entire end-to-end problem solution and discuss one or two particular aspects of the project you found interesting or difficult. You are expected to reflect on the project as a whole to show that you have a firm understanding of the entire process employed in your work. Questions to ask yourself when writing this section:
-- _Have you thoroughly summarized the entire process you used for this project?_
-- _Were there any interesting aspects of the project?_
-- _Were there any difficult aspects of the project?_
-- _Does the final model and solution fit your expectations for the problem, and should it be used in a general setting to solve these types of problems?_
+This project was executed in the following steps.
+* The labeled and unlabeled datasets was retrieved from Kaggle.
+* I used Floydhub.com to get the GPU power I needed.
+* Sample images were shown to get an idea about the data.
+* The labeled data was split in a training set and a test set.
+* The images in te training and test set were resized and converted to tensors.
+* The training set was augmented by flipping, rotating, translating, and zooming.
+* A CNN model was created from scratch.
+* Transfer learning models were used VGG16, VGG19, and ResNet50
+* The augmented set was used to train the models and the test set was used to evaluate.
+* F1  scores were calculated using code found on stackoverflow
+* Confusion matrices were created with code from the Scikit-learn documentation.
+* The trained models used the unlabeled dataset from Kaggle to create predictions.
+* The predictions were send to Kaggle for evaluation.
+
+This project was much more difficult and time consuming than the classifying dog project. I was impressed by the power of Convolutional Neural Networks in classifying plant species that look very similar. It is sattisfying to know that the models used could reduce the amount of heribicides used.
+One thing I found particulary interesting is the influence of augmented dataset. The impact showed clearly that getting more data is often more important in deep learning than tweaking parameters.
 
 ### Improvement
-In this section, you will need to provide discussion as to how one aspect of the implementation you designed could be improved. As an example, consider ways your implementation can be made more general, and what would need to be modified. You do not need to make this improvement, but the potential solutions resulting from these changes are considered and compared/contrasted to your current solution. Questions to ask yourself when writing this section:
-- _Are there further improvements that could be made on the algorithms or techniques you used in this project?_
-- _Were there algorithms or techniques you researched that you did not know how to implement, but would consider using if you knew how?_
-- _If you used your final solution as the new benchmark, do you think an even better solution exists?_
+While the current results would already be helpful for the farmer to descide which parts of the field needs to be sprayed with herbicide some Kagglers proved that better results are possible. This section is about improvement. I see two possible avenues of improvements.
 
------------
+Additional hyper-parameter tuning or using other pre-trained models such as inception-V3 or xception could make a difference. However the model does already well for 10 out of 12 species so most of the improvement can be gained by better recognizing the remaining two, Black grass and Loose Silky-bent. A better aproach would therefore be to build a sepparate
+model to better separate those two.
 
-**Before submitting, ask yourself. . .**
+A second more prommising avenue of improvement is to furter improve the data. It is no surprice that the models we have seen so far have the most difficulty with those two. Black grass is a tiny grass blade surrouded by pebbles and markers and Loose silky bend is a tiny grass blade surrouded by pebbles and markers. Those are easely confused. The size could also lead the model to see the pebbles and markers as features. To solve this we could use image preprocessing techniques to remove the background pebbles and markers. These techniques are described by [Petre Lameski](https://www.researchgate.net/publication/322445354_Plant_Species_Recognition_Based_on_Machine_Learning_and_Image_Processing) who used this techniques for  image detection of tobacco, carrots, and spinach and [Mads Dyrmann](http://pure.au.dk/portal/files/114969776/MadsDyrmannAfhandlingMedOmslag.pdf). The figure below demostrates the removal of the background.
 
-- Does the project report you’ve written follow a well-organized structure similar to that of the project template?
-- Is each section (particularly **Analysis** and **Methodology**) written in a clear, concise and specific fashion? Are there any ambiguous terms or phrases that need clarification?
-- Would the intended audience of your project be able to understand your analysis, methods, and results?
-- Have you properly proof-read your project report to assure there are minimal grammatical and spelling mistakes?
-- Are all the resources used for this project correctly cited and referenced?
-- Is the code that implements your solution easily readable and properly commented?
-- Does the code execute without error and produce results similar to those reported?
+ ![](figures/image_preprocessing.jpg "image preprocessing")
+ Separating the plant from the background. From [Mads Dyrmann](http://pure.au.dk/portal/files/114969776/MadsDyrmannAfhandlingMedOmslag.pdf).
 
+ After the removal of the background of all the images the model would no longer be distracted by pebles and markers. This woud possibly yield better results in the distinction between Black grass Loose Silky-bend.
 
 ## References
 * [Kaggle seedlings evaluation](https://www.kaggle.com/c/plant-seedlings-classification#evaluation)
-* [scikit-learn.org f1 score](http://scikit-learn.org/stable/modules/generated/sklearn.metrics.f1_score.html)
+* [Scikit-learn.org f1 score](http://scikit-learn.org/stable/modules/generated/sklearn.metrics.f1_score.html)
+* [Roboweedmaps at Aarhus University in Denmark](https://vision.eng.au.dk/roboweedmaps/)
+* [Kaggle competition](https://www.kaggle.com/c/plant-seedlings-classification)
+* [Explanation loss function](http://ml-cheatsheet.readthedocs.io/en/latest/loss_functions.html)
+* [Explanation cross entropy loss](https://rdipietro.github.io/friendly-intro-to-cross-entropy-loss/)
+* [Keras ImageDataGenerator class](https://keras.io/preprocessing/image/)
+* [stackoverflow calculate F1](https://stackoverflow.com/questions/43547402/how-to-calculate-f1-macro-in-keras)
+* [scikit-learn documentation - confusion matrix](http://scikit-learn.org/stable/auto_examples/model_selection/plot_confusion_matrix.html)
+* [Petre Lameski](https://www.researchgate.net/publication/322445354_Plant_Species_Recognition_Based_on_Machine_Learning_and_Image_Processing)
+* [Mads Dyrmann](http://pure.au.dk/portal/files/114969776/MadsDyrmannAfhandlingMedOmslag.pdf)
