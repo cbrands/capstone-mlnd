@@ -119,6 +119,23 @@ Testing set
 There is a large mismatch in the set. For some species there are only 200 samples in the set and for others 600. A factor of 3. Also the complete data set could be larger. So I have augmented the data set using techniques shown [here](https://blog.keras.io/building-powerful-image-classification-models-using-very-little-data.html) and [here](https://machinelearningmastery.com/image-augmentation-deep-learning-keras/).
 
 ### Algorithms and Techniques
+
+
+
+
+### Benchmark
+As part of the Plant seedlings classification project Kaggle hosts a page were people can [share their kernels](https://www.kaggle.com/c/plant-seedlings-classification/kernels). As a benchmark I took the most popular at this time, the kernel shared by [Beluga](https://www.kaggle.com/gaborfodor/seedlings-pretrained-keras-models). I downloaded his   [submission.csv](https://www.kaggle.com/gaborfodor/seedlings-pretrained-keras-models/output) and submitted it to Kaggle. A score of 0.84005 was returned. So this is the score I want to improve.
+
+## III. Methodology
+### Data Preprocessing
+The data was split into a training set and a test set. Targets were one-hot-encoded, converting them from integers to vectors with length 12 (the number of plant species). The images were loaded into memory, resized to a resolution of 224 x 244 with 3 RGB channels, and converted to tensors.
+
+As explained in the Data Exploration section above there was a large mismatch in the dataset were some species were represented by 600 images and other by only 200. Overall we could use more data. So data augmentation techniques were used to balance and enlarge the dataset. Using [Keras ImageDataGenerator class](https://keras.io/preprocessing/image/) I applied random rotations, zooms, and shifts in height and width.
+
+This created a an even distribution with a lot more data as shown below.
+![](figures/plot3.png "augmented distribution")
+
+### Implementation
 I created Convolutional Neural Networks to classify the images using the following approaches:
 I used three approaches approaches to create a Convolutional Neural Network to classify images:
 * Building a CNN from scratch.
@@ -132,7 +149,6 @@ I started with the neural network I used in the dog classification project. Howe
 ![](figures/basic_cnn.png "basic cnn")
 
 I also tried drop out layers but they had a negative impact on the result.
-
 #### Transfer Learning
 For the transfer learning experiments (VGG16, VGG19, and ResNet50) I followed the approach I learned in the CNN section of the Udacity course.
 * I removed the toplayers, set the lower layers to non-trainable to keep features like edges and shapes.
@@ -140,26 +156,10 @@ For the transfer learning experiments (VGG16, VGG19, and ResNet50) I followed th
 * Train the network to update the weights of the new fully connected layer.
 The transfer learning models are to large to print here as I printed the basic CNN from scratch. Therefore I refer the interested reader to to the accompanying html exports. For example to find the VGG16 model I used look into the capstone_mlnd_vgg16_export.html file in section "Train and evaluate the models" you will find the VGG16 model I used printed.
 
-### Benchmark
-The results from my models were benchmarked against other submissions in the Kaggle [Leaderboard​](https://www.kaggle.com/c/plant-seedlings-classification/leaderboard).
-Also some Kaggle visitors are hosting Kaggle kernels after completing this project I used their code as a benchmark.
-
-
-
-## III. Methodology
-### Data Preprocessing
-The data was split into a training set and a test set. Targets were one-hot-encoded, converting them from integers to vectors with length 12 (the number of plant species). The images were loaded into memory, resized to a resolution of 224 x 244 with 3 RGB channels, and converted to tensors.
-
-As explained in the Data Exploration section above there was a large mismatch in the dataset were some species were represented by 600 images and other by only 200. Overall we could use more data. So data augmentation techniques were used to balance and enlarge the dataset. Using [Keras ImageDataGenerator class](https://keras.io/preprocessing/image/) I applied random rotations, zooms, and shifts in height and width.
-
-This created a an even distribution with a lot more data as shown below.
-![](figures/plot3.png "augmented distribution")
-
-### Implementation
-The models I used were described above in the section "Algorithms and Techniques".
-
+#### Metrics
 Keras does not offer a build in F1 metric so I used code I found on [stackoverflow](https://stackoverflow.com/questions/43547402/how-to-calculate-f1-macro-in-keras). This code can be found on the accompanying notebook in section "Calculating f1 score".
 
+#### Evaluation methods
 The confusion matrices were calculated using code I adapted from the [scikit-learn documentation](http://scikit-learn.org/stable/auto_examples/model_selection/plot_confusion_matrix.html). This code can be found on the accompanying notebook in section "Evaluation functions".
 
 The best model definition and weights for each were saved out to an hdf5 file with that model's name.
@@ -200,7 +200,9 @@ The ResNet50 model gives the best results and is therefore the preferred model. 
 Here we can see that most plants are properly classified. Only the Black grass and the Loose Silky-bent are recognized less than 90% of the times.
 
 ### Justification
-As the competition at Kaggle is already closed I can no longer submit to the leaderboard. However I can compare the score I received from Kaggle and compare that to the leaderboard. There were 836 submissions to the leaderboard. The scores ranged from 1.000 for number 1 to 0.04534 for number 836. The score I received from Kaggle for the Resnet50 model is 0.92569. This would place me at rank 520. Clearly there is room for improvement, which I will discuss in the Improvement section below.
+All 4 models I tried did improve on the bench mark on the benchmark(0.84005). The highest score I received was 0.92569 for the ResNet50 prediction. However I also compared my score with the leaderboard.
+
+I compared the scores I received from Kaggle with those on the leaderboard. There were 836 submissions to the leaderboard. The scores ranged from 1.000 for number 1 to 0.04534 for number 836. The score I received from Kaggle for the Resnet50 model is 0.92569. This would place me at rank 520. Clearly there is room for improvement, which I will discuss in the Improvement section below.
 
 Is the solution good enough to solve the problem? I think it is. Weeds do not come alone and a farmer is not going to spray a field for one strand of grass. Even with the lowest recognition rate of 74% for black grass a patch of weed will be recognized. Even when the system misidentifies a strand of black grass the majority of the neighbours will be correctly recognized and the correct herbicide will be applied. That said other Kagglers have shown a better result is possible and we should strive for that, which will be discussed in the last section.
 
@@ -259,3 +261,4 @@ A second more prommising avenue of improvement is to further improve the data. I
 * [Petre Lameski](https://www.researchgate.net/publication/322445354_Plant_Species_Recognition_Based_on_Machine_Learning_and_Image_Processing)
 * [Mads Dyrmann](http://pure.au.dk/portal/files/114969776/MadsDyrmannAfhandlingMedOmslag.pdf)
 * [Floydhub.com](https://www.floydhub.com/jobs)
+* [Kernel shared by Beluga](https://www.kaggle.com/gaborfodor/seedlings-pretrained-keras-models)
