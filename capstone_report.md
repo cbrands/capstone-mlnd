@@ -119,9 +119,64 @@ Testing set
 There is a large mismatch in the set. For some species there are only 200 samples in the set and for others 600. A factor of 3. Also the complete data set could be larger. So I have augmented the data set using techniques shown [here](https://blog.keras.io/building-powerful-image-classification-models-using-very-little-data.html) and [here](https://machinelearningmastery.com/image-augmentation-deep-learning-keras/).
 
 ### Algorithms and Techniques
+#### CNN
+A convolutional neural network (CNN) is a class of artificial deep neural networks. For image classifying problems (such as  this project) this is a commonly used solution. CNN's consists of multiple layers. The layers I used are described below.
 
+##### Convolutional layers
+The convolutional layer is where the Convolutional Neural Network get it's name from. The layer has a set of learnable filters (or kernels), which have a small receptive window. Each filter moves across the width and height of the input volume during the forward pass. Each step the dot product between the entries of the filter and the input is calculated. This results in a 2-dimensional activation map of that filter.
+In the code a convolutional layer is added in the following manner.
+```Conv2D(filters=32, kernel_size=2,strides=1,activation='relu')```
+This layer has the following parameters.
+* filters: Integer, the dimensionality of the output space (i.e. the number of output filters in the convolution).
+* kernel_size: Integer, specifying both the height and width of the (square) convolution window.
+* strides: Step-size of the convolution.
+* activation: Activation function to use. I use ReLu described in the hyperparameters section below.
+The first (and only the first) convolutional layer has also an input_shape parameter. This is a Tuple specifying the height, width, and depth of the input.
 
+##### Max Pooling layers
+The role of the pooling layer is to reduce the dimensionality of the CNN. The max pooling layer takes a stack of feature maps as input. The max pooling layer slides over each feature map and calculates the maximum value in the window. The result is a stack with the same number of feature maps but with each feature map reduced in width and height. In code a pooling layer is added as follows
 
+```MaxPooling2D(pool_size=2,strides=2)```
+* pool_size: Number specifying the height and width of the square pooling window.
+* strides: The vertical and horizontal stride.
+
+##### Global average Pooling layer
+The global average pooling layer is different from the max pooling layer in that we don't give the window size or stride. It calculates the average for each feature map. The result is a stack where each feature map is reduced to a single value.
+
+##### Dense layers
+The dense layer is as the Keras documentation puts it "Just your regular densely-connected NN layer". In the code it is added as
+
+```Dense(len(data['target_names']),activation='softmax')```
+
+The first parameter is the number of classes. The activation is softmax is explained in the hyperparameters section below.
+
+#### Optimizers
+In this project I use [Adam](https://arxiv.org/pdf/1412.6980v8.pdf). Adam is an optimization algorithm to update network weights iterative based in training data. Adam is a very popular algorithm in deep learning because it achieves good results fast. I used Adam with the default options defined in Keras.
+
+#### Hyperparameters
+In tuning the CNN I used the following hyperparameters.
+##### Learning rate
+The learning rate controls how much to update the weight in the optimization algorithm.
+
+##### Number of epochs
+Number of epochs is the the number of times the entire training set pass through the neural network. The optimum number of epochs is where the gap between the test error and the training error is the smallest.
+
+##### Batch size
+The batch size defines number of samples that is going to be propagated through the network together. A small batch is usually preferable in the learning process of CNN. A range of 16 to 128 is a good choice to test with. I used a batch size of 20. This means that the algorithm takes first 20 samples (from 1st to 20th) from the training dataset and trains network. Next it takes second 20 samples (from 21st to 40th) and trains the network again, and so on.
+
+##### Activation function
+Every activation function takes a single number and performs a certain fixed mathematical operation on it. There are several activation functions available. In this project I used the ReLu (Rectified Linear Unit) activation function.
+In Relu a(x)=x for x > 0 and a(x) = 0 for x <= 0.
+
+##### Softmax function
+The softmax function is often used in the final layer of a neural network-based classifier. Softmax assigns decimal probabilities to each class in a multi-class problem. Naturally those decimal probabilities must add up to 1.0. This additional constraint helps training converge more quickly.
+
+#### Transfer Learning
+In transfer learning knowledge gained during training in one type of problem is used to expedite the training in another related type of problem.
+
+For image recognition with deep learning, the first few of layers are trained to identify features such as edges and colors. The last layers are used to classify objects such as cars or cats. So, during transfer learning, you can remove the last few layers of the pre-trained network and retrain with fresh layers for the problem you want to classify.
+
+There are quite a few pre-trained networks available. In this project I use three well known pre-trained networks VGG16, VGG19, and ResNet50.
 
 ### Benchmark
 As part of the Plant seedlings classification project Kaggle hosts a page were people can [share their kernels](https://www.kaggle.com/c/plant-seedlings-classification/kernels). As a benchmark I took the most popular at this time, the kernel shared by [Beluga](https://www.kaggle.com/gaborfodor/seedlings-pretrained-keras-models). I downloaded his   [submission.csv](https://www.kaggle.com/gaborfodor/seedlings-pretrained-keras-models/output) and submitted it to Kaggle. A score of 0.84005 was returned. So this is the score I want to improve.
@@ -177,13 +232,13 @@ The predicted positives are the true positives plus the false positives. This is
 predicted_positives = K.sum(K.round(K.clip(y_pred, 0, 1)))
 ```
 
-The possible possitives are the true possitives plus the false negatives.
+The possible positives are the true positives plus the false negatives.
 This is calculated by
 ```
 possible_positives = K.sum(K.round(K.clip(y_true, 0, 1)))
 ```
 
-Now we can calculated precission as
+Now we can calculate precision as
 ```
 precision = true_positives / (predicted_positives + K.epsilon())
 ```
@@ -193,7 +248,7 @@ The recall is calculated as
 ```
 recall = true_positives / (possible_positives + K.epsilon())
 ```
-Finally we use precission and recall to calculate F1.
+Finally we use precision and recall to calculate F1.
 ```
 2*((precision*recall)/(precision+recall+K.epsilon()))
 ```
@@ -279,7 +334,7 @@ While the current results would already be helpful for the farmer to decide whic
 
 Additional hyper-parameter tuning or using other pre-trained models such as inception-V3 or xception could make a difference. However the model does already well for 10 out of 12 species so most of the improvement can be gained by better recognizing the remaining two, Black grass and Loose Silky-bent. A better approach would therefore be to build a separate model to better separate those two.
 
-A second more prommising avenue of improvement is to further improve the data. It is no surprise that the models we have seen so far have the most difficulty with Black grass and Loose Silky-bent. Black grass is a tiny grass blade surrounded by pebbles and markers and Loose silky-bent is a tiny grass blade surrounded by pebbles and markers. Those are easily confused. The small size could also lead the model to see the pebbles and markers as features. To solve this we could use image preprocessing techniques to remove the background pebbles and markers. These techniques are described by [Petre Lameski](https://www.researchgate.net/publication/322445354_Plant_Species_Recognition_Based_on_Machine_Learning_and_Image_Processing) who used this techniques for  image detection of tobacco, carrots, and spinach and [Mads Dyrmann](http://pure.au.dk/portal/files/114969776/MadsDyrmannAfhandlingMedOmslag.pdf). The figure below demonstrates the removal of the background.
+A second more promising avenue of improvement is to further improve the data. It is no surprise that the models we have seen so far have the most difficulty with Black grass and Loose Silky-bent. Black grass is a tiny grass blade surrounded by pebbles and markers and Loose silky-bent is a tiny grass blade surrounded by pebbles and markers. Those are easily confused. The small size could also lead the model to see the pebbles and markers as features. To solve this we could use image preprocessing techniques to remove the background pebbles and markers. These techniques are described by [Petre Lameski](https://www.researchgate.net/publication/322445354_Plant_Species_Recognition_Based_on_Machine_Learning_and_Image_Processing) who used this techniques for  image detection of tobacco, carrots, and spinach and [Mads Dyrmann](http://pure.au.dk/portal/files/114969776/MadsDyrmannAfhandlingMedOmslag.pdf). The figure below demonstrates the removal of the background.
 
  ![](figures/image_preprocessing.jpg "image preprocessing")
  Separating the plant from the background. From [Mads Dyrmann](http://pure.au.dk/portal/files/114969776/MadsDyrmannAfhandlingMedOmslag.pdf).
@@ -300,3 +355,4 @@ A second more prommising avenue of improvement is to further improve the data. I
 * [Mads Dyrmann](http://pure.au.dk/portal/files/114969776/MadsDyrmannAfhandlingMedOmslag.pdf)
 * [Floydhub.com](https://www.floydhub.com/jobs)
 * [Kernel shared by Beluga](https://www.kaggle.com/gaborfodor/seedlings-pretrained-keras-models)
+* [Adam](https://arxiv.org/pdf/1412.6980v8.pdf)
