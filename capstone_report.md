@@ -149,6 +149,7 @@ I started with the neural network I used in the dog classification project. Howe
 ![](figures/basic_cnn.png "basic cnn")
 
 I also tried drop out layers but they had a negative impact on the result.
+
 #### Transfer Learning
 For the transfer learning experiments (VGG16, VGG19, and ResNet50) I followed the approach I learned in the CNN section of the Udacity course.
 * I removed the toplayers, set the lower layers to non-trainable to keep features like edges and shapes.
@@ -157,8 +158,45 @@ For the transfer learning experiments (VGG16, VGG19, and ResNet50) I followed th
 The transfer learning models are to large to print here as I printed the basic CNN from scratch. Therefore I refer the interested reader to to the accompanying html exports. For example to find the VGG16 model I used look into the capstone_mlnd_vgg16_export.html file in section "Train and evaluate the models" you will find the VGG16 model I used printed.
 
 #### Metrics
-Keras does not offer a build in F1 metric so I used code I found on [stackoverflow](https://stackoverflow.com/questions/43547402/how-to-calculate-f1-macro-in-keras). This code can be found on the accompanying notebook in section "Calculating f1 score".
+Keras does not offer a build in F1 metric so I used code I found on [stackoverflow](https://stackoverflow.com/questions/43547402/how-to-calculate-f1-macro-in-keras). This code can be found on the accompanying notebook in section "Calculating f1 score". Here follows an explanation of how the F1 metric is calculated. First some terminology:
 
+True Positives are samples that are correctly identified as belonging to a certain class. This is calculated by
+```
+true_positives = K.sum(K.round(K.clip(y_true * y_pred, 0, 1)))
+```
+Here y_true is the class and y_pred is the predicted class.
+
+False Positives are samples that are identified as belonging to a certain class, but was actually something else.
+
+True Negatives are samples that are correctly marked as not belonging to a  certain class. We don't need the true negatives to calculate the f1 score.
+
+False Negatives are samples that should have been identified as a member of a class but mistakenly selected as not belonging to this class.
+
+The predicted positives are the true positives plus the false positives. This is calculated by
+```
+predicted_positives = K.sum(K.round(K.clip(y_pred, 0, 1)))
+```
+
+The possible possitives are the true possitives plus the false negatives.
+This is calculated by
+```
+possible_positives = K.sum(K.round(K.clip(y_true, 0, 1)))
+```
+
+Now we can calculated precission as
+```
+precision = true_positives / (predicted_positives + K.epsilon())
+```
+Here K.epsilon() is a numeric fuzzing constant used to avoid dividing by zero.
+
+The recall is calculated as
+```
+recall = true_positives / (possible_positives + K.epsilon())
+```
+Finally we use precission and recall to calculate F1.
+```
+2*((precision*recall)/(precision+recall+K.epsilon()))
+```
 #### Evaluation methods
 The confusion matrices were calculated using code I adapted from the [scikit-learn documentation](http://scikit-learn.org/stable/auto_examples/model_selection/plot_confusion_matrix.html). This code can be found on the accompanying notebook in section "Evaluation functions".
 
